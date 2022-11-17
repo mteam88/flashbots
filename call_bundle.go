@@ -23,7 +23,7 @@ type CallBundleRequest struct {
 
 type callBundleRequest struct {
 	RawTransactions  []hexutil.Bytes `json:"txs"`
-	BlockNumber      *hexutil.Big    `json:"blockNumber"`
+	BlockNumber      string    `json:"blockNumber"`
 	StateBlockNumber string          `json:"stateBlockNumber"`
 	Timestamp        uint64          `json:"timestamp,omitempty"`
 }
@@ -47,7 +47,7 @@ func (c CallBundleRequest) MarshalJSON() ([]byte, error) {
 			enc.RawTransactions[i] = rawTx
 		}
 	}
-	enc.BlockNumber = (*hexutil.Big)(c.BlockNumber)
+	enc.BlockNumber = toBlockNumberArg(c.BlockNumber)
 	enc.StateBlockNumber = toBlockNumberArg(c.StateBlockNumber)
 	enc.Timestamp = c.Timestamp
 	return json.Marshal(&enc)
